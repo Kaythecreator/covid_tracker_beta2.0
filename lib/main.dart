@@ -1,13 +1,19 @@
+
+
+import 'package:covid_tracker_beta/FaqSect.dart';
 import 'package:covid_tracker_beta/datasource.dart';
 import 'package:covid_tracker_beta/homepage.dart';
 import 'package:flutter/material.dart';
+
 
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     home: HomePage(),
+
   ));
 }
+
 
 class MyApp extends StatefulWidget {
   @override
