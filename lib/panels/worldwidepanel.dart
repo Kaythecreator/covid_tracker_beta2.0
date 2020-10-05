@@ -1,3 +1,4 @@
+import 'package:covid_tracker_beta/datasource.dart';
 import 'package:flutter/material.dart';
 
 class WorldwidePanel extends StatelessWidget {
@@ -19,26 +20,30 @@ class WorldwidePanel extends StatelessWidget {
         children: [
           StatusPanel(
             title: 'CONFIRMED',
+            panelColor: Colors.red,
 
-            textColor: Colors.red,
+            textColor: Colors.white,
             count: worldData['cases'].toString(),
           ),
           StatusPanel(
             title: 'ACTIVE',
+            panelColor: Colors.orange,
 
-            textColor: Colors.blue[900],
+            textColor: Colors.white,
             count: worldData['active'].toString(),
           ),
           StatusPanel(
             title: 'RECOVERED',
+            panelColor: Colors.green,
 
-            textColor: Colors.green,
+            textColor: Colors.white,
             count: worldData['recovered'].toString(),
           ),
           StatusPanel(
             title: 'DEATHS',
+            panelColor: Colors.grey[900],
 
-            textColor: Colors.grey[900],
+            textColor: Colors.white,
             count: worldData['deaths'].toString(),
           ),
         ],
@@ -79,7 +84,7 @@ class StatusPanel extends StatelessWidget {
                    blurRadius: 10
             ),  ],
 
-            color: Colors.white,
+            color: panelColor,
 
       ),
     );

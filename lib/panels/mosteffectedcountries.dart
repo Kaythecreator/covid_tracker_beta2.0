@@ -1,3 +1,4 @@
+import 'package:covid_tracker_beta/datasource.dart';
 import 'package:flutter/material.dart';
 
 class MostAffectedPanel extends StatelessWidget {
@@ -17,13 +18,12 @@ class MostAffectedPanel extends StatelessWidget {
           margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Row(
             children: [
-              ClipOval(
-              child: Image.network(countryData[index]['countryInfo']['flag'], width: 25, height: 25,),
-              ),
+              Image.network(countryData[index]['countryInfo']['flag'], width: 25, height: 25,),
+
               SizedBox(width: 10,),
-              Text(countryData[index]['country'], style: TextStyle(fontWeight: FontWeight.bold),),
+              Text(countryData[index]['country'], style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
               SizedBox(width: 10,),
-              Text('Deaths:' + '   ' + countryData[index]['deaths'].toString(), style: TextStyle(color: Colors.red, fontWeight: FontWeight.w900),),
+              Text('Deaths:' + '   ' + countryData[index]['deaths'].toString(), style: TextStyle(color: primaryBlack, fontWeight: FontWeight.w900),),
 
             ]
           ),
