@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:covid_tracker_beta/datasource.dart';
 import 'package:covid_tracker_beta/detailsPage.dart';
+import 'package:covid_tracker_beta/mythsPage.dart';
 import 'package:covid_tracker_beta/infoPanel.dart';
 import 'package:covid_tracker_beta/main.dart';
 import 'package:covid_tracker_beta/panels/CustomAppBar.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
       home: MyHomePage(),
       routes: {
         '/detailsPage': (context) => detailsPage(),
+        '/mythsPage': (context) => myths(),
       },
     );
   }
@@ -241,7 +243,7 @@ class _HomePageState extends State<MyHomePage> {
             color: Colors.blue,
             boxShadow: [
               BoxShadow(
-                  color: Colors.black26, offset: Offset(0, 0), blurRadius: 10)
+                  color: Colors.black38, offset: Offset(0, 0), blurRadius: 10)
             ],
             borderRadius: BorderRadius.circular(40)),
         child: Column(
@@ -364,8 +366,8 @@ class _HomePageState extends State<MyHomePage> {
               child: LiquidSwipe(
                 enableSlideIcon: true,
                 positionSlideIcon: 0,
-                onPageChangeCallback: differentPage,
-                enableLoop: false,
+                onPageChangeCallback: pageChange,
+                enableLoop: true,
                 pages: [
                   Container(
                     height: 70,
@@ -420,12 +422,13 @@ class _HomePageState extends State<MyHomePage> {
     });
   }
 
-  differentPage(int 2page){
-    print(2page);
+  pageChange(int page2){
+    print(page2);
     setState(() {
-      page = 2page;
+      page = page2;
       if (page == 2){
-        Navigator.pushNamed(context, '/mythsPage');
+        Navigator.push(context, MaterialPageRoute(builder:(context) => myths()));
+        print('hello');
   }
     });
   }
