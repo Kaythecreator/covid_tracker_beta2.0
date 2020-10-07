@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:covid_tracker_beta/datasource.dart';
 import 'package:covid_tracker_beta/detailsPage.dart';
 import 'package:covid_tracker_beta/mythsPage.dart';
-import 'package:covid_tracker_beta/Faq.dart';
 import 'package:covid_tracker_beta/infoPanel.dart';
 import 'package:covid_tracker_beta/main.dart';
 import 'package:covid_tracker_beta/panels/CustomAppBar.dart';
@@ -368,7 +367,7 @@ class _HomePageState extends State<MyHomePage> {
                 enableSlideIcon: true,
                 positionSlideIcon: 0,
                 onPageChangeCallback: pageChange,
-                enableLoop: true,
+                enableLoop: false,
                 pages: [
                   Container(
                     height: 70,
@@ -427,9 +426,8 @@ class _HomePageState extends State<MyHomePage> {
     print(page2);
     setState(() {
       page = page2;
-      if (page == 2){
-        Navigator.push(context, MaterialPageRoute(builder:(context) => myths()));
-        print('hello');
+      if (page == 1){
+        Navigator.push(context, MaterialPageRoute(builder:(context) => MythsPage()));
   }
     });
   }
