@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:covid_tracker_beta/datasource.dart';
 import 'package:covid_tracker_beta/detailsPage.dart';
 import 'package:covid_tracker_beta/mythsPage.dart';
+import 'package:covid_tracker_beta/Faq.dart';
 import 'package:covid_tracker_beta/infoPanel.dart';
 import 'package:covid_tracker_beta/main.dart';
 import 'package:covid_tracker_beta/panels/CustomAppBar.dart';
