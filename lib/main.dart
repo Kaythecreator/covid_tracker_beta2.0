@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:covid_tracker_beta/Total%20Case.dart';
 import 'package:covid_tracker_beta/datasource.dart';
 import 'package:covid_tracker_beta/detailsPage.dart';
 import 'package:covid_tracker_beta/infoPanel.dart';
 import 'package:covid_tracker_beta/main.dart';
 import 'package:covid_tracker_beta/panels/CustomAppBar.dart';
 import 'package:covid_tracker_beta/panels/mosteffectedcountries.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:covid_tracker_beta/panels/worldwidepanel.dart';
 import 'package:covid_tracker_beta/searchRegion.dart';
 import 'package:flutter/cupertino.dart';
@@ -52,6 +54,14 @@ class _HomePageState extends State<MyHomePage> {
     });
   }
 
+  Map usaData;
+  fetchUSAData() async {
+    http.Response response = await http.get('https://corona.lmao.ninja/v2/');
+    setState(() {
+      usaData = jsonDecode(response.body);
+    });
+  }
+
   List countryData;
   fetchCountryData() async {
     http.Response response =
@@ -88,7 +98,8 @@ class _HomePageState extends State<MyHomePage> {
         physics: ClampingScrollPhysics(),
         slivers: [
           _buildCovid(screenHeight),
-          _buildHeader(screenHeight),
+          _buildTotal(screenHeight),
+          _buildDaily(screenHeight),
           _buildAffected(screenHeight),
           _FAQ(screenHeight),
           _buildMyth(screenHeight),
@@ -162,11 +173,16 @@ class _HomePageState extends State<MyHomePage> {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 20,
+                ),
               ],
             )));
   }
 
-  SliverToBoxAdapter _buildHeader(double screenHeight) {
+
+
+  SliverToBoxAdapter _buildTotal(double screenHeight) {
     return SliverToBoxAdapter(
       child: Container(
         margin: EdgeInsets.all(20),
@@ -210,6 +226,56 @@ class _HomePageState extends State<MyHomePage> {
                 : WorldwidePanel(
                     worldData: worldData,
                   ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  SliverToBoxAdapter _buildDaily(double screenHeight) {
+    return SliverToBoxAdapter(
+      child: Container(
+        margin: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(color: Colors.black26, offset: Offset(0, 5), blurRadius: 10)
+        ], color: Colors.white, borderRadius: BorderRadius.circular(40)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Daily: Worldwide',
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: primaryBlack),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: primaryBlack,
+                        borderRadius: BorderRadius.circular(30)
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.search, color: Colors.white,),
+                      iconSize: 25,
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchPage()));
+                      },
+                    ),
+                  )
+                ],
+              ),
+            ),
+            usaData == null
+                ? CircularProgressIndicator()
+                : dailyPanel(
+              usaData: usaData,
+            ),
           ],
         ),
       ),
