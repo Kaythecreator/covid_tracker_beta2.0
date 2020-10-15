@@ -24,9 +24,20 @@ class _totalState extends State<total> {
     });
   }
 
+  List countryData;
+  fetchCountryData() async {
+    http.Response response =
+    await http.get('https://corona.lmao.ninja/v2/countries?sort=cases');
+    setState(() {
+      countryData = jsonDecode(response.body);
+    });
+  }
+
+
   @override
   void initState() {
     fetchWorldWideData();
+    fetchCountryData();
     super.initState();
   }
 
@@ -107,6 +118,41 @@ class _totalState extends State<total> {
                    SizedBox(
                      height: 30,
                    )
+                  ],
+                ),
+              ),
+              worldData == null
+                  ? CircularProgressIndicator()
+                  : WorldwidePanel(
+                worldData: worldData,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(color: Colors.black26, offset: Offset(0, 5), blurRadius: 10)
+          ], color: Colors.white, borderRadius: BorderRadius.circular(40)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'WorldWide',
+                      style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: primaryBlack),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    )
                   ],
                 ),
               ),
