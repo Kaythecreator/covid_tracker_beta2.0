@@ -4,6 +4,7 @@ import 'package:covid_tracker_beta/datasource.dart';
 import 'package:covid_tracker_beta/main.dart';
 import 'package:covid_tracker_beta/panels/MostActive.dart';
 import 'package:covid_tracker_beta/panels/MostCases.dart';
+import 'package:covid_tracker_beta/panels/MostRecovered.dart';
 import 'package:covid_tracker_beta/panels/mosteffectedcountries.dart';
 import 'package:covid_tracker_beta/panels/worldwidepanel.dart';
 import 'package:covid_tracker_beta/searchRegion.dart';
@@ -19,18 +20,48 @@ class most extends StatefulWidget {
 
 class _mostState extends State<most> {
 
-  List countryData;
-  fetchCountryData() async {
+  List countryCaseData;
+  fetchCountryCaseData() async {
     http.Response response =
     await http.get('https://corona.lmao.ninja/v2/countries?sort=cases');
     setState(() {
-      countryData = jsonDecode(response.body);
+      countryCaseData = jsonDecode(response.body);
+    });
+  }
+
+  List countryDeathData;
+  fetchCountryDeathData() async {
+    http.Response response =
+    await http.get('https://corona.lmao.ninja/v2/countries?sort=deaths');
+    setState(() {
+      countryDeathData = jsonDecode(response.body);
+    });
+  }
+
+  List countryActiveData;
+  fetchCountryActiveData() async {
+    http.Response response =
+    await http.get('https://corona.lmao.ninja/v2/countries?sort=active');
+    setState(() {
+      countryActiveData = jsonDecode(response.body);
+    });
+  }
+
+  List countryRecoveredData;
+  fetchCountryRecoveredData() async {
+    http.Response response =
+    await http.get('https://corona.lmao.ninja/v2/countries?sort=recovered');
+    setState(() {
+      countryRecoveredData = jsonDecode(response.body);
     });
   }
 
   @override
   void initState() {
-    fetchCountryData();
+    fetchCountryCaseData();
+    fetchCountryActiveData();
+    fetchCountryDeathData();
+    fetchCountryRecoveredData();
     super.initState();
   }
 
@@ -56,9 +87,10 @@ class _mostState extends State<most> {
       body: CustomScrollView(
         physics: ClampingScrollPhysics(),
         slivers: [
-          _buildAffectedDeaths(),
-          _buildAffectedActive(),
           _buildAffectedCases(),
+          _buildAffectedActive(),
+          _buildAffectedRecovered(),
+          _buildAffectedDeaths(),
         ],
       ),
     );
@@ -94,10 +126,10 @@ class _mostState extends State<most> {
             SizedBox(
               height: 5,
             ),
-            countryData == null
+            countryDeathData == null
                 ? Container()
                 : MostAffectedPanel(
-              countryData: countryData,
+              countryData: countryDeathData,
             ),
           ],
         ),
@@ -135,10 +167,10 @@ class _mostState extends State<most> {
             SizedBox(
               height: 5,
             ),
-            countryData == null
+            countryActiveData == null
                 ? Container()
                 : MostActivePanel(
-              countryData: countryData,
+              countryData: countryActiveData,
             ),
           ],
         ),
@@ -176,10 +208,51 @@ class _mostState extends State<most> {
             SizedBox(
               height: 5,
             ),
-            countryData == null
+            countryCaseData == null
                 ? Container()
                 : MostCasesPanel(
-              countryData: countryData,
+              countryData: countryCaseData,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  SliverToBoxAdapter _buildAffectedRecovered() {
+    return SliverToBoxAdapter(
+      child: Container(
+        margin: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(30),
+        decoration: BoxDecoration(
+            color: Colors.green,
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black38, offset: Offset(0, 0), blurRadius: 10)
+            ],
+            borderRadius: BorderRadius.circular(40)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+              ),
+              child: Text(
+                'Most Affected: Recovered',
+                style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            countryRecoveredData == null
+                ? Container()
+                : MostRecoveredPanel(
+              countryData: countryRecoveredData,
             ),
           ],
         ),
