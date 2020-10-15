@@ -1,11 +1,14 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:covid_tracker_beta/Total%20Case.dart';
+import 'package:covid_tracker_beta/TotalPage.dart';
 import 'package:covid_tracker_beta/datasource.dart';
 import 'package:covid_tracker_beta/detailsPage.dart';
 import 'package:covid_tracker_beta/infoPanel.dart';
 import 'package:covid_tracker_beta/main.dart';
 import 'package:covid_tracker_beta/panels/CustomAppBar.dart';
+import 'package:covid_tracker_beta/panels/dailyPanel.dart';
 import 'package:covid_tracker_beta/panels/mosteffectedcountries.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:covid_tracker_beta/panels/worldwidepanel.dart';
@@ -33,6 +36,7 @@ class MyApp extends StatelessWidget {
         home: MyHomePage(),
         routes: {
           '/detailsPage': (context) => detailsPage(),
+          '/total': (context) => total()
         },
       );
   }
@@ -51,14 +55,6 @@ class _HomePageState extends State<MyHomePage> {
     http.Response response = await http.get('https://corona.lmao.ninja/v2/all');
     setState(() {
       worldData = jsonDecode(response.body);
-    });
-  }
-
-  Map usaData;
-  fetchUSAData() async {
-    http.Response response = await http.get('https://corona.lmao.ninja/v2/');
-    setState(() {
-      usaData = jsonDecode(response.body);
     });
   }
 
@@ -98,9 +94,10 @@ class _HomePageState extends State<MyHomePage> {
         physics: ClampingScrollPhysics(),
         slivers: [
           _buildCovid(screenHeight),
+          _buildPrevention(screenHeight),
           _buildTotal(screenHeight),
           _buildDaily(screenHeight),
-          _buildAffected(screenHeight),
+          _buildMostAffected(screenHeight),
           _FAQ(screenHeight),
           _buildMyth(screenHeight),
           _buildDonate(screenHeight),
@@ -180,148 +177,414 @@ class _HomePageState extends State<MyHomePage> {
             )));
   }
 
-
-
-  SliverToBoxAdapter _buildTotal(double screenHeight) {
+  SliverToBoxAdapter _buildPrevention(double screenHeight){
     return SliverToBoxAdapter(
       child: Container(
         margin: EdgeInsets.all(20),
         padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(color: Colors.black26, offset: Offset(0, 5), blurRadius: 10)
-        ], color: Colors.white, borderRadius: BorderRadius.circular(40)),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black26,
+              offset: Offset(0, 0),
+              blurRadius: 10)
+          ]
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'WorldWide',
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: primaryBlack),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: primaryBlack,
-                      borderRadius: BorderRadius.circular(30)
-                    ),
-                    child: IconButton(
-                      icon: Icon(Icons.search, color: Colors.white,),
-                      iconSize: 25,
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchPage()));
-                      },
-                    ),
-                  )
-                ],
+            Text(
+              'Prevention Techniques',
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold
               ),
             ),
-            worldData == null
-                ? CircularProgressIndicator()
-                : WorldwidePanel(
-                    worldData: worldData,
-                  ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: prevention.map((e) => Column(children: [
+                Image.asset(
+                    e.keys.first,
+                        height: screenHeight * 0.12
+                ),
+                SizedBox(
+                  height: screenHeight * 0.015,
+                ),
+                Text(e.values.first, style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold
+                ),
+                  textAlign: TextAlign.center,
+                ),
+              ],))
+                .toList(),
+            )
           ],
         ),
       ),
     );
+  }
+
+  SliverToBoxAdapter _buildTotal(double screenHeight) {
+    return SliverToBoxAdapter(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.all(20),
+              decoration: BoxDecoration(color: Colors.orange, boxShadow: [
+              ]
+              ),
+              width: MediaQuery.of(context).size.width,
+            ),
+            Container(
+              height: 150,
+              width: 400,
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                    color: Colors.black12, offset: Offset(0, 0), blurRadius: 25)
+              ]),
+              child: LiquidSwipe(
+                enableSlideIcon: true,
+                positionSlideIcon: 0,
+                onPageChangeCallback: pageTotal,
+                enableLoop: true,
+                pages: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 0.0,
+                      horizontal: 0.0,
+                    ),
+                    padding: const EdgeInsets.all(25.0),
+                    height: screenHeight * 0.45,
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              'Total Cases',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: screenHeight * 0.02),
+                            Text(
+                              'Swipe left to discover the total cases\nglobally and regionally.',                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
+                              ),
+                              maxLines: 2,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 0.0,
+                      horizontal: 0.0,
+                    ),
+                    padding: const EdgeInsets.all(25.0),
+                    height: screenHeight * 0.45,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              'Total Cases',
+                              style: const TextStyle(
+                                color: Colors.blue,
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: screenHeight * 0.02),
+                            Text(
+                              'Swipe left to discover the total cases\nglobally and regionally.',
+                              style: const TextStyle(
+                                color: Colors.blueAccent,
+                                fontSize: 16.0,
+                              ),
+                              maxLines: 2,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            )
+          ],
+        ));
   }
 
   SliverToBoxAdapter _buildDaily(double screenHeight) {
     return SliverToBoxAdapter(
-      child: Container(
-        margin: EdgeInsets.all(20),
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(color: Colors.black26, offset: Offset(0, 5), blurRadius: 10)
-        ], color: Colors.white, borderRadius: BorderRadius.circular(40)),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Daily: Worldwide',
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: primaryBlack),
+            Container(
+              margin: EdgeInsets.all(20),
+              decoration: BoxDecoration(color: Colors.orange, boxShadow: [
+              ]
+              ),
+              width: MediaQuery.of(context).size.width,
+            ),
+            Container(
+              height: 150,
+              width: 400,
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(0, 0),
+                    blurRadius: 15)
+              ]),
+              child: LiquidSwipe(
+                enableSlideIcon: true,
+                positionSlideIcon: 0,
+                onPageChangeCallback: pageChangeCallback,
+                enableLoop: true,
+                pages: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 0.0,
+                      horizontal: 0.0,
+                    ),
+                    padding: const EdgeInsets.all(25.0),
+                    height: screenHeight * 0.45,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              'Daily Cases',
+                              style: const TextStyle(
+                                color: Colors.blue,
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: screenHeight * 0.02),
+                            Text(
+                              'Swipe left to discover the daily cases\nglobally and regionally.',                              style: const TextStyle(
+                              color: Colors.blue,
+                              fontSize: 16.0,
+                            ),
+                              maxLines: 2,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                   Container(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 0.0,
+                      horizontal: 0.0,
+                    ),
+                    padding: const EdgeInsets.all(25.0),
+                    height: screenHeight * 0.45,
                     decoration: BoxDecoration(
-                        color: primaryBlack,
-                        borderRadius: BorderRadius.circular(30)
+                      color: Colors.blue,
+
+                      borderRadius: BorderRadius.circular(20.0),
                     ),
-                    child: IconButton(
-                      icon: Icon(Icons.search, color: Colors.white,),
-                      iconSize: 25,
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchPage()));
-                      },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              'Daily Cases',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: screenHeight * 0.02),
+                            Text(
+                              'Swipe left to discover the daily cases\nglobally and regionally.',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
+                              ),
+                              maxLines: 2,
+                            ),
+                          ],
+                        )
+                      ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-            usaData == null
-                ? CircularProgressIndicator()
-                : dailyPanel(
-              usaData: usaData,
-            ),
+            SizedBox(
+              height: 20,
+            )
           ],
-        ),
-      ),
-    );
+        ));
   }
 
-  SliverToBoxAdapter _buildAffected(double screenHeight) {
+  SliverToBoxAdapter _buildMostAffected(double screenHeight) {
     return SliverToBoxAdapter(
-      child: Container(
-        margin: EdgeInsets.all(20),
-        padding: const EdgeInsets.all(30),
-        decoration: BoxDecoration(
-            color: Colors.blue,
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black38, offset: Offset(0, 0), blurRadius: 10)
-            ],
-            borderRadius: BorderRadius.circular(40)),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
+            Container(
+              margin: EdgeInsets.all(20),
+              decoration: BoxDecoration(color: Colors.orange, boxShadow: [
+              ]
               ),
-              child: Text(
-                'Most Affected Countries',
-                style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+              width: MediaQuery.of(context).size.width,
+            ),
+            Container(
+              height: 150,
+              width: 400,
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                    color: Colors.black12, offset: Offset(0, 0), blurRadius: 25)
+              ]),
+              child: LiquidSwipe(
+                enableSlideIcon: true,
+                positionSlideIcon: 0,
+                onPageChangeCallback: pageChangeCallback,
+                enableLoop: true,
+                pages: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 0.0,
+                      horizontal: 0.0,
+                    ),
+                    padding: const EdgeInsets.all(25.0),
+                    height: screenHeight * 0.45,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              'Most Affected',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: screenHeight * 0.02),
+                            Text(
+                              'Swipe left to discover the countries with the\nmost deaths, total cases, and recovered.',                              style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.0,
+                            ),
+                              maxLines: 2,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 0.0,
+                      horizontal: 0.0,
+                    ),
+                    padding: const EdgeInsets.all(25.0),
+                    height: screenHeight * 0.45,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              'Most Affected',
+                              style: const TextStyle(
+                                color: Colors.blue,
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: screenHeight * 0.02),
+                            Text(
+                              'Swipe left to discover the countries with the\nmost deaths, total cases, and recovered.',
+                              style: const TextStyle(
+                                color: Colors.blueAccent,
+                                fontSize: 16.0,
+                              ),
+                              maxLines: 2,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(
-              height: 5,
-            ),
-            countryData == null
-                ? Container()
-                : MostAffectedPanel(
-                    countryData: countryData,
-                  ),
+              height: 20,
+            )
           ],
-        ),
-      ),
-    );
+        ));
   }
+
+
+            //worldData == null
+               // ? CircularProgressIndicator()
+               // : WorldwidePanel(
+                //    worldData: worldData,
+                 // ),
 
   SliverToBoxAdapter _FAQ(double screenHeight) {
     return SliverToBoxAdapter(
@@ -338,10 +601,12 @@ class _HomePageState extends State<MyHomePage> {
         ),
         Container(
           height: 70,
-          width: 320,
+          width: 400,
           decoration: BoxDecoration(boxShadow: [
             BoxShadow(
-                color: Colors.black26, offset: Offset(0, 0), blurRadius: 25)
+                color: Colors.black26,
+                offset: Offset(0, 0),
+                blurRadius: 15)
           ]),
           child: LiquidSwipe(
             enableSlideIcon: true,
@@ -351,7 +616,7 @@ class _HomePageState extends State<MyHomePage> {
             pages: [
               Container(
                 height: 70,
-                width: 320,
+                width: 400,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(40),
                   color: Colors.white,
@@ -367,7 +632,7 @@ class _HomePageState extends State<MyHomePage> {
               ),
               Container(
                 height: 70,
-                width: 320,
+                width: 400,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(40),
                   color: Colors.blue,
@@ -400,13 +665,15 @@ class _HomePageState extends State<MyHomePage> {
               margin: EdgeInsets.all(10),
               decoration: BoxDecoration(color: Colors.orange, boxShadow: [
                 BoxShadow(
-                    color: Colors.black26, offset: Offset(0, 0), blurRadius: 10)
+                    color: Colors.black26,
+                    offset: Offset(0, 0),
+                    blurRadius: 15)
               ]),
               width: MediaQuery.of(context).size.width,
             ),
             Container(
               height: 70,
-              width: 320,
+              width: 400,
               decoration: BoxDecoration(boxShadow: [
                 BoxShadow(
                     color: Colors.black26, offset: Offset(0, 0), blurRadius: 25)
@@ -419,7 +686,7 @@ class _HomePageState extends State<MyHomePage> {
                 pages: [
                   Container(
                     height: 70,
-                    width: 320,
+                    width: 400,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40),
                       color: Colors.white,
@@ -435,7 +702,7 @@ class _HomePageState extends State<MyHomePage> {
                   ),
                   Container(
                     height: 70,
-                    width: 320,
+                    width: 400,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40),
                       color: Colors.blue,
@@ -469,13 +736,15 @@ class _HomePageState extends State<MyHomePage> {
               margin: EdgeInsets.all(10),
               decoration: BoxDecoration(color: Colors.orange, boxShadow: [
                 BoxShadow(
-                    color: Colors.black26, offset: Offset(0, 0), blurRadius: 10)
+                    color: Colors.black26,
+                    offset: Offset(0, 0),
+                    blurRadius: 15)
               ]),
               width: MediaQuery.of(context).size.width,
             ),
             Container(
               height: 70,
-              width: 320,
+              width: 400,
               decoration: BoxDecoration(boxShadow: [
                 BoxShadow(
                     color: Colors.black26, offset: Offset(0, 0), blurRadius: 25)
@@ -488,7 +757,7 @@ class _HomePageState extends State<MyHomePage> {
                 pages: [
                   Container(
                     height: 70,
-                    width: 320,
+                    width: 400,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40),
                       color: Colors.white,
@@ -504,7 +773,7 @@ class _HomePageState extends State<MyHomePage> {
                   ),
                   Container(
                     height: 70,
-                    width: 320,
+                    width: 400,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40),
                       color: Colors.blue,
@@ -558,4 +827,15 @@ class _HomePageState extends State<MyHomePage> {
       }
     });
   }
+
+  pageTotal(int page4){
+    print(page4);
+    setState(() {
+      page = page4;
+      if (page == 1){
+        Navigator.pushNamed(context, '/total');
+      }
+    });
+  }
+
 }

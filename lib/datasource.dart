@@ -10,6 +10,12 @@ void main() {
   ));
 }
 
+final prevention = [
+  {'assets/6ftapp.png': 'Stay 6\nfeet apart'},
+  {'assets/handwashapp.png': 'Wash your\nhands often'},
+  {'assets/mask2app.png': 'Wear a\nface mask'}
+];
+
 class DataSource {
 
   static List questionAnswers = [
