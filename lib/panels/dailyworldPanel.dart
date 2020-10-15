@@ -23,7 +23,7 @@ class DailyworldPanel extends StatelessWidget {
             panelColor: Colors.red,
 
             textColor: Colors.white,
-            count: dailyworldData['cases'].toString(),
+            count: dailyworldData['todayCases'].toString(),
           ),
           StatusPanel(
             title: 'ACTIVE',
@@ -37,14 +37,14 @@ class DailyworldPanel extends StatelessWidget {
             panelColor: Colors.green,
 
             textColor: Colors.white,
-            count: dailyworldData['recovered'].toString(),
+            count: dailyworldData['todayRecovered'].toString(),
           ),
           StatusPanel(
             title: 'DEATHS',
             panelColor: Colors.grey[900],
 
             textColor: Colors.white,
-            count: dailyworldData['deaths'].toString(),
+            count: dailyworldData['todayDeaths'].toString(),
           ),
         ],
       ),

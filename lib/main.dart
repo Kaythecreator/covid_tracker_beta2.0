@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:covid_tracker_beta/DailyPage.dart';
-import 'package:covid_tracker_beta/Total%20Case.dart';
 import 'package:covid_tracker_beta/TotalPage.dart';
 import 'package:covid_tracker_beta/datasource.dart';
 import 'package:covid_tracker_beta/detailsPage.dart';

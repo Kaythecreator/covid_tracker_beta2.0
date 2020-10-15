@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:covid_tracker_beta/datasource.dart';
 import 'package:covid_tracker_beta/main.dart';
+import 'package:covid_tracker_beta/panels/dailyworldPanel.dart';
+import 'package:covid_tracker_beta/panels/usaPanel.dart';
 import 'package:covid_tracker_beta/panels/worldwidepanel.dart';
+import 'package:covid_tracker_beta/panels/usaPanel.dart';
 import 'package:covid_tracker_beta/searchRegion.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,17 +19,28 @@ class daily extends StatefulWidget {
 
 class _dailyState extends State<daily> {
 
-  Map worldData;
-  fetchWorldWideData() async {
+  Map dailyworldData;
+  fetchDailyworldData() async {
     http.Response response = await http.get('https://corona.lmao.ninja/v2/all');
     setState(() {
-      worldData = jsonDecode(response.body);
+      dailyworldData = jsonDecode(response.body);
     });
   }
 
+  Map usaData;
+  fetchusaData() async {
+    http.Response response =
+    await http.get('https://corona.lmao.ninja/v2/countries/usa');
+    setState(() {
+      usaData = jsonDecode(response.body);
+    });
+  }
+
+
   @override
   void initState() {
-    fetchWorldWideData();
+    fetchDailyworldData();
+    fetchusaData();
     super.initState();
   }
 
@@ -110,10 +124,45 @@ class _dailyState extends State<daily> {
                     ],
                   ),
                 ),
-                worldData == null
+                dailyworldData == null
                     ? CircularProgressIndicator()
-                    : WorldwidePanel(
-                  worldData: worldData,
+                    : DailyworldPanel(
+                  dailyworldData: dailyworldData,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(boxShadow: [
+              BoxShadow(color: Colors.black26, offset: Offset(0, 5), blurRadius: 10)
+            ], color: Colors.white, borderRadius: BorderRadius.circular(40)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'USA',
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: primaryBlack),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      )
+                    ],
+                  ),
+                ),
+                usaData == null
+                    ? CircularProgressIndicator()
+                    : UsaPanel(
+                  usaData: usaData,
                 ),
               ],
             ),

@@ -4,7 +4,6 @@ import 'package:covid_tracker_beta/datasource.dart';
 import 'package:covid_tracker_beta/main.dart';
 import 'package:covid_tracker_beta/panels/usaPanel.dart';
 import 'package:covid_tracker_beta/panels/worldwidepanel.dart';
-import 'package:covid_tracker_beta/panels/usaPanel.dart';
 import 'package:covid_tracker_beta/searchRegion.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
