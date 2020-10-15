@@ -26,7 +26,7 @@ class DailyworldPanel extends StatelessWidget {
             count: dailyworldData['todayCases'].toString(),
           ),
           StatusPanel(
-            title: 'ACTIVE',
+            title: 'TOTAL ACTIVE',
             panelColor: Colors.orange,
 
             textColor: Colors.white,

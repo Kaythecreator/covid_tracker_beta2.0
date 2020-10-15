@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:covid_tracker_beta/DailyPage.dart';
+import 'package:covid_tracker_beta/MostPage.dart';
 import 'package:covid_tracker_beta/TotalPage.dart';
 import 'package:covid_tracker_beta/datasource.dart';
 import 'package:covid_tracker_beta/detailsPage.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
           '/detailsPage': (context) => detailsPage(),
           '/total': (context) => total(),
           '/daily': (context) => daily(),
+          '/affected': (context) => most(),
         },
       );
   }
@@ -486,7 +488,7 @@ class _HomePageState extends State<MyHomePage> {
               child: LiquidSwipe(
                 enableSlideIcon: true,
                 positionSlideIcon: 0,
-                onPageChangeCallback: pageChangeCallback,
+                onPageChangeCallback: pageChangeAffected,
                 enableLoop: true,
                 pages: [
                   Container(
@@ -579,13 +581,6 @@ class _HomePageState extends State<MyHomePage> {
           ],
         ));
   }
-
-
-            //worldData == null
-               // ? CircularProgressIndicator()
-               // : WorldwidePanel(
-                //    worldData: worldData,
-                 // ),
 
   SliverToBoxAdapter _FAQ(double screenHeight) {
     return SliverToBoxAdapter(
@@ -846,6 +841,16 @@ class _HomePageState extends State<MyHomePage> {
       page = page5;
       if (page == 1){
         Navigator.pushNamed(context, '/daily');
+      }
+    });
+  }
+
+  pageChangeAffected(int page6){
+    print(page6);
+    setState(() {
+      page = page6;
+      if (page == 1){
+        Navigator.pushNamed(context, '/affected');
       }
     });
   }

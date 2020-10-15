@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:covid_tracker_beta/datasource.dart';
 import 'package:covid_tracker_beta/main.dart';
+import 'package:covid_tracker_beta/panels/dailyusaPanel.dart';
 import 'package:covid_tracker_beta/panels/dailyworldPanel.dart';
 import 'package:covid_tracker_beta/panels/usaPanel.dart';
 import 'package:covid_tracker_beta/panels/worldwidepanel.dart';
@@ -27,12 +28,12 @@ class _dailyState extends State<daily> {
     });
   }
 
-  Map usaData;
-  fetchusaData() async {
+  Map dailyusaData;
+  fetchdailyusaData() async {
     http.Response response =
     await http.get('https://corona.lmao.ninja/v2/countries/usa');
     setState(() {
-      usaData = jsonDecode(response.body);
+      dailyusaData = jsonDecode(response.body);
     });
   }
 
@@ -40,7 +41,7 @@ class _dailyState extends State<daily> {
   @override
   void initState() {
     fetchDailyworldData();
-    fetchusaData();
+    fetchdailyusaData();
     super.initState();
   }
 
@@ -159,10 +160,10 @@ class _dailyState extends State<daily> {
                     ],
                   ),
                 ),
-                usaData == null
+                dailyusaData == null
                     ? CircularProgressIndicator()
-                    : UsaPanel(
-                  usaData: usaData,
+                    : DailyusaPanel(
+                  dailyusaData: dailyusaData,
                 ),
               ],
             ),
