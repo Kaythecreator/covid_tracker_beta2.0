@@ -4,6 +4,8 @@ import 'package:covid_tracker_beta/datasource.dart';
 import 'package:covid_tracker_beta/main.dart';
 import 'package:covid_tracker_beta/panels/dailyusaPanel.dart';
 import 'package:covid_tracker_beta/panels/dailyworldPanel.dart';
+import 'package:covid_tracker_beta/searchDailyRegion.dart';
+import 'package:pie_chart/pie_chart.dart';
 import 'package:covid_tracker_beta/panels/usaPanel.dart';
 import 'package:covid_tracker_beta/panels/worldwidepanel.dart';
 import 'package:covid_tracker_beta/panels/usaPanel.dart';
@@ -68,7 +70,7 @@ class _dailyState extends State<daily> {
             icon: Icon(Icons.search, color: Colors.white,),
             iconSize: 35,
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchDailyPage()));
             },
           ),
         ],
@@ -204,6 +206,20 @@ class _dailyState extends State<daily> {
                     fontWeight: FontWeight.bold
                 ),
               ),
+            ),
+            PieChart(dataMap: {
+              'Confirmed': dailyworldData['todayCases'].toDouble(),
+              'Recovered': dailyworldData['todayRecovered'].toDouble(),
+              'Deaths': dailyworldData['todayDeaths'].toDouble(),
+            },
+              chartRadius: 250,
+
+              colorList: [
+                Colors.red,
+                Colors.green,
+                Colors.black
+              ],
+
             )
           ],
         ),

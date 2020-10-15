@@ -4,6 +4,8 @@ import 'package:covid_tracker_beta/datasource.dart';
 import 'package:covid_tracker_beta/main.dart';
 import 'package:covid_tracker_beta/panels/usaPanel.dart';
 import 'package:covid_tracker_beta/panels/worldwidepanel.dart';
+import 'package:covid_tracker_beta/searchDailyRegion.dart';
+import 'package:pie_chart/pie_chart.dart';
 import 'package:covid_tracker_beta/searchRegion.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -201,6 +203,22 @@ class _totalState extends State<total> {
                   fontWeight: FontWeight.bold
                 ),
               ),
+            ),
+            PieChart(dataMap: {
+              'Confirmed': worldData['cases'].toDouble(),
+              'Active': worldData['active'].toDouble(),
+              'Recovered': worldData['recovered'].toDouble(),
+              'Deaths': worldData['deaths'].toDouble(),
+            },
+              chartRadius: 250,
+
+            colorList: [
+              Colors.red,
+              Colors.orange,
+              Colors.green,
+              Colors.black
+            ],
+
             )
           ],
         ),

@@ -608,7 +608,7 @@ class _HomePageState extends State<MyHomePage> {
             enableSlideIcon: true,
             positionSlideIcon: 0,
             onPageChangeCallback: pageChangeCallback,
-            enableLoop: false,
+            enableLoop: true,
             pages: [
               Container(
                 height: 70,

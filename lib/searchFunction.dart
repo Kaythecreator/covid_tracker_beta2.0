@@ -50,7 +50,6 @@ class Search extends SearchDelegate {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.white,
-                boxShadow: [BoxShadow(color: Colors.black38, offset: Offset(0, 0), blurRadius: 10)]
             ),
             child: Row(
               children: [
