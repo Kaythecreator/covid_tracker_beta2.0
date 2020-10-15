@@ -48,11 +48,21 @@ class _totalState extends State<total> {
         leading: IconButton(icon: const Icon(Icons.arrow_back_ios), onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context)=>MyHomePage()));
         }),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search, color: Colors.white,),
+            iconSize: 35,
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchPage()));
+            },
+          ),
+        ],
       ),
       body: CustomScrollView(
         physics: ClampingScrollPhysics(),
         slivers: [
           _buildCases(),
+          _buildSpace(),
           _buildGraphs(),
         ],
       ),
@@ -64,17 +74,17 @@ class _totalState extends State<total> {
       child:
       CarouselSlider(
       options: CarouselOptions(
-        enlargeCenterPage: true,
+        enlargeCenterPage: false,
         autoPlay: true,
         autoPlayCurve: Curves.fastOutSlowIn,
         enableInfiniteScroll: true,
-        autoPlayAnimationDuration: Duration(milliseconds: 800),
-        viewportFraction: 0.8,
+        autoPlayAnimationDuration: Duration(milliseconds: 2000),
+        viewportFraction: 1,
         height: 320
       ),
       items: [
         Container(
-          margin: EdgeInsets.all(20),
+          margin: EdgeInsets.all(15),
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(boxShadow: [
             BoxShadow(color: Colors.black26, offset: Offset(0, 5), blurRadius: 10)
@@ -94,19 +104,9 @@ class _totalState extends State<total> {
                           fontWeight: FontWeight.bold,
                           color: primaryBlack),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: primaryBlack,
-                          borderRadius: BorderRadius.circular(30)
-                      ),
-                      child: IconButton(
-                        icon: Icon(Icons.search, color: Colors.white,),
-                        iconSize: 25,
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchPage()));
-                        },
-                      ),
-                    )
+                   SizedBox(
+                     height: 30,
+                   )
                   ],
                 ),
               ),
@@ -122,11 +122,19 @@ class _totalState extends State<total> {
         ),
     );
   }
-  
+
+  SliverToBoxAdapter _buildSpace() {
+    return SliverToBoxAdapter(
+      child: Container(
+        height: 30,
+      ),
+    );
+  }
+
   SliverToBoxAdapter _buildGraphs() {
     return SliverToBoxAdapter(
       child: Container(
-        height: 600,
+        height: 400,
         decoration: BoxDecoration(
           color: Colors.white,
               borderRadius: BorderRadius.only(
