@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:covid_tracker_beta/DailyPage.dart';
 import 'package:covid_tracker_beta/Total%20Case.dart';
 import 'package:covid_tracker_beta/TotalPage.dart';
 import 'package:covid_tracker_beta/datasource.dart';
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
         home: MyHomePage(),
         routes: {
           '/detailsPage': (context) => detailsPage(),
-          '/total': (context) => total()
+          '/total': (context) => total(),
+          '/daily': (context) => daily(),
         },
       );
   }
@@ -370,7 +372,7 @@ class _HomePageState extends State<MyHomePage> {
               child: LiquidSwipe(
                 enableSlideIcon: true,
                 positionSlideIcon: 0,
-                onPageChangeCallback: pageChangeCallback,
+                onPageChangeCallback: pageChangeDaily,
                 enableLoop: true,
                 pages: [
                   Container(
@@ -834,6 +836,17 @@ class _HomePageState extends State<MyHomePage> {
       page = page4;
       if (page == 1){
         Navigator.pushNamed(context, '/total');
+      }
+    });
+  }
+
+
+  pageChangeDaily(int page5){
+    print(page5);
+    setState(() {
+      page = page5;
+      if (page == 1){
+        Navigator.pushNamed(context, '/daily');
       }
     });
   }
