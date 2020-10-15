@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:covid_tracker_beta/datasource.dart';
 import 'package:covid_tracker_beta/main.dart';
+import 'package:covid_tracker_beta/panels/usaPanel.dart';
 import 'package:covid_tracker_beta/panels/worldwidepanel.dart';
+import 'package:covid_tracker_beta/panels/usaPanel.dart';
 import 'package:covid_tracker_beta/searchRegion.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,12 +26,12 @@ class _totalState extends State<total> {
     });
   }
 
-  List countryData;
-  fetchCountryData() async {
+  Map usaData;
+  fetchusaData() async {
     http.Response response =
-    await http.get('https://corona.lmao.ninja/v2/countries?sort=cases');
+    await http.get('https://corona.lmao.ninja/v2/countries/usa');
     setState(() {
-      countryData = jsonDecode(response.body);
+      usaData = jsonDecode(response.body);
     });
   }
 
@@ -37,7 +39,7 @@ class _totalState extends State<total> {
   @override
   void initState() {
     fetchWorldWideData();
-    fetchCountryData();
+    fetchusaData();
     super.initState();
   }
 
@@ -144,7 +146,7 @@ class _totalState extends State<total> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'WorldWide',
+                      'USA',
                       style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -156,10 +158,10 @@ class _totalState extends State<total> {
                   ],
                 ),
               ),
-              worldData == null
+              usaData == null
                   ? CircularProgressIndicator()
-                  : WorldwidePanel(
-                worldData: worldData,
+                  : UsaPanel(
+                usaData: usaData,
               ),
             ],
           ),

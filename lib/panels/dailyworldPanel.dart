@@ -1,11 +1,11 @@
 import 'package:covid_tracker_beta/datasource.dart';
 import 'package:flutter/material.dart';
 
-class UsaPanel extends StatelessWidget {
+class DailyworldPanel extends StatelessWidget {
 
-  final Map usaData;
+  final Map dailyworldData;
 
-  const UsaPanel({Key key, this.usaData}) : super(key: key);
+  const DailyworldPanel({Key key, this.dailyworldData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,28 +23,28 @@ class UsaPanel extends StatelessWidget {
             panelColor: Colors.red,
 
             textColor: Colors.white,
-            count: usaData['cases'].toString(),
+            count: dailyworldData['cases'].toString(),
           ),
           StatusPanel(
             title: 'ACTIVE',
             panelColor: Colors.orange,
 
             textColor: Colors.white,
-            count: usaData['active'].toString(),
+            count: dailyworldData['active'].toString(),
           ),
           StatusPanel(
             title: 'RECOVERED',
             panelColor: Colors.green,
 
             textColor: Colors.white,
-            count: usaData['recovered'].toString(),
+            count: dailyworldData['recovered'].toString(),
           ),
           StatusPanel(
             title: 'DEATHS',
             panelColor: Colors.grey[900],
 
             textColor: Colors.white,
-            count: usaData['deaths'].toString(),
+            count: dailyworldData['deaths'].toString(),
           ),
         ],
       ),
