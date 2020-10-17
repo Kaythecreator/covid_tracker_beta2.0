@@ -23,7 +23,7 @@ class MostDailyDeathsPanel extends StatelessWidget {
                   SizedBox(width: 10,),
                   Text(countryData[index]['country'], style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
                   SizedBox(width: 10,),
-                  Text('Deaths:' + '   ' + countryData[index]['todayDeaths'].toString(), style: TextStyle(color: primaryBlack, fontWeight: FontWeight.w900),),
+                  Text('Deaths:' + '   ' + countryData[index]['todayDeaths'].toString(), style: TextStyle(color: Colors.red, fontWeight: FontWeight.w900),),
 
                 ]
             ),

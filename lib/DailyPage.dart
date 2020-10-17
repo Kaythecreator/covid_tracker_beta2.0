@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:covid_tracker_beta/datasource.dart';
 import 'package:covid_tracker_beta/main.dart';
+import 'package:covid_tracker_beta/panels/MostDailyCases.dart';
+import 'package:covid_tracker_beta/panels/MostDailyDeaths.dart';
+import 'package:covid_tracker_beta/panels/MostDailyRecovered.dart';
 import 'package:covid_tracker_beta/panels/dailyusaPanel.dart';
 import 'package:covid_tracker_beta/panels/dailyworldPanel.dart';
 import 'package:covid_tracker_beta/searchDailyRegion.dart';
@@ -39,11 +42,41 @@ class _dailyState extends State<daily> {
     });
   }
 
+  List countryCaseData;
+  fetchCountryCaseData() async {
+    http.Response response =
+    await http.get('https://corona.lmao.ninja/v2/countries?sort=todayCases');
+    setState(() {
+      countryCaseData = jsonDecode(response.body);
+    });
+  }
+
+  List countryDeathData;
+  fetchCountryDeathData() async {
+    http.Response response =
+    await http.get('https://corona.lmao.ninja/v2/countries?sort=todayDeaths');
+    setState(() {
+      countryDeathData = jsonDecode(response.body);
+    });
+  }
+
+
+  List countryRecoveredData;
+  fetchCountryRecoveredData() async {
+    http.Response response =
+    await http.get('https://corona.lmao.ninja/v2/countries?sort=todayRecovered');
+    setState(() {
+      countryRecoveredData = jsonDecode(response.body);
+    });
+  }
 
   @override
   void initState() {
     fetchDailyworldData();
     fetchdailyusaData();
+    fetchCountryCaseData();
+    fetchCountryDeathData();
+    fetchCountryRecoveredData();
     super.initState();
   }
 
@@ -261,45 +294,8 @@ class _dailyState extends State<daily> {
                       ),
                       countryDeathData == null
                           ? Container()
-                          : MostAffectedPanel(
+                          : MostDailyDeathsPanel(
                         countryData: countryDeathData,
-                      ),
-                    ],
-                  ),
-                ),
-
-                Container(
-                  margin: EdgeInsets.all(20),
-                  padding: const EdgeInsets.all(30),
-                  decoration: BoxDecoration(
-                      color: Colors.orange,
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black38, offset: Offset(0, 0), blurRadius: 10)
-                      ],
-                      borderRadius: BorderRadius.circular(40)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                        ),
-                        child: Text(
-                          'Most Affected: Active Cases',
-                          style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      countryActiveData == null
-                          ? Container()
-                          : MostActivePanel(
-                        countryData: countryActiveData,
                       ),
                     ],
                   ),
@@ -335,7 +331,7 @@ class _dailyState extends State<daily> {
                       ),
                       countryCaseData == null
                           ? Container()
-                          : MostCasesPanel(
+                          : MostDailyCasesPanel(
                         countryData: countryCaseData,
                       ),
                     ],
@@ -372,7 +368,7 @@ class _dailyState extends State<daily> {
                       ),
                       countryRecoveredData == null
                           ? Container()
-                          : MostRecoveredPanel(
+                          : MostDailyRecoveredPanel(
                         countryData: countryRecoveredData,
                       ),
                     ],
