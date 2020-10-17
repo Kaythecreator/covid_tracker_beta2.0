@@ -100,7 +100,6 @@ class _HomePageState extends State<MyHomePage> {
           _buildPrevention(screenHeight),
           _buildTotal(screenHeight),
           _buildDaily(screenHeight),
-          _buildMostAffected(screenHeight),
           _FAQ(screenHeight),
           _buildMyth(screenHeight),
           _buildDonate(screenHeight),
@@ -384,7 +383,7 @@ class _HomePageState extends State<MyHomePage> {
                     padding: const EdgeInsets.all(25.0),
                     height: screenHeight * 0.45,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.blue,
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     child: Row(
@@ -397,7 +396,7 @@ class _HomePageState extends State<MyHomePage> {
                             Text(
                               'Daily Cases',
                               style: const TextStyle(
-                                color: Colors.blue,
+                                color: Colors.white,
                                 fontSize: 22.0,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -405,122 +404,6 @@ class _HomePageState extends State<MyHomePage> {
                             SizedBox(height: screenHeight * 0.02),
                             Text(
                               'Swipe left to discover the daily cases\nglobally and regionally.',                              style: const TextStyle(
-                              color: Colors.blue,
-                              fontSize: 16.0,
-                            ),
-                              maxLines: 2,
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 0.0,
-                      horizontal: 0.0,
-                    ),
-                    padding: const EdgeInsets.all(25.0),
-                    height: screenHeight * 0.45,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Daily Cases',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 22.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: screenHeight * 0.02),
-                            Text(
-                              'Swipe left to discover the daily cases\nglobally and regionally.',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                              ),
-                              maxLines: 2,
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            )
-          ],
-        ));
-  }
-
-  SliverToBoxAdapter _buildMostAffected(double screenHeight) {
-    return SliverToBoxAdapter(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              margin: EdgeInsets.all(20),
-              decoration: BoxDecoration(color: Colors.orange, boxShadow: [
-              ]
-              ),
-              width: MediaQuery.of(context).size.width,
-            ),
-            Container(
-              height: 150,
-              width: 400,
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                    color: Colors.black12, offset: Offset(0, 0), blurRadius: 25)
-              ]),
-              child: LiquidSwipe(
-                enableSlideIcon: true,
-                positionSlideIcon: 0,
-                onPageChangeCallback: pageChangeAffected,
-                enableLoop: true,
-                pages: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 0.0,
-                      horizontal: 0.0,
-                    ),
-                    padding: const EdgeInsets.all(25.0),
-                    height: screenHeight * 0.45,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Most Affected',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 22.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: screenHeight * 0.02),
-                            Text(
-                              'Swipe left to discover the countries with the\nmost deaths, total cases, and recovered.',                              style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16.0,
                             ),
@@ -551,7 +434,7 @@ class _HomePageState extends State<MyHomePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              'Most Affected',
+                              'Daily Cases',
                               style: const TextStyle(
                                 color: Colors.blue,
                                 fontSize: 22.0,
@@ -560,9 +443,9 @@ class _HomePageState extends State<MyHomePage> {
                             ),
                             SizedBox(height: screenHeight * 0.02),
                             Text(
-                              'Swipe left to discover the countries with the\nmost deaths, total cases, and recovered.',
+                              'Swipe left to discover the daily cases\nglobally and regionally.',
                               style: const TextStyle(
-                                color: Colors.blueAccent,
+                                color: Colors.blue,
                                 fontSize: 16.0,
                               ),
                               maxLines: 2,
