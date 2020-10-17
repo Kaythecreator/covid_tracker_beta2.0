@@ -186,7 +186,7 @@ class _dailyState extends State<daily> {
   SliverToBoxAdapter _buildGraphs() {
     return SliverToBoxAdapter(
       child: Container(
-        height: 400,
+        height: 500,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
@@ -200,27 +200,187 @@ class _dailyState extends State<daily> {
               padding: const EdgeInsets.all(20),
               alignment: Alignment.centerLeft,
               child: Text(
-                'Graphs',
+                'Most Affected Countries',
                 style: const TextStyle(
-                    fontSize: 30,
+                    fontSize: 27,
                     fontWeight: FontWeight.bold
                 ),
               ),
             ),
-            PieChart(dataMap: {
-              'Confirmed': dailyworldData['todayCases'].toDouble(),
-              'Recovered': dailyworldData['todayRecovered'].toDouble(),
-              'Deaths': dailyworldData['todayDeaths'].toDouble(),
-            },
-              chartRadius: 250,
+            Container(
+              padding: const EdgeInsets.only(left: 20),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Swipe left',
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20
+                ),
+              ),
+            ),
+            CarouselSlider(
+              options: CarouselOptions(
+                  enlargeCenterPage: true,
+                  autoPlay: false,
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  enableInfiniteScroll: false,
+                  autoPlayAnimationDuration: Duration(milliseconds: 2000),
+                  viewportFraction: 1,
+                  height: 395
+              ),
+              items: [
 
-              colorList: [
-                Colors.red,
-                Colors.green,
-                Colors.black
+                Container(
+                  margin: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(30),
+                  decoration: BoxDecoration(
+                      color: primaryBlack,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black38, offset: Offset(0, 0), blurRadius: 10)
+                      ],
+                      borderRadius: BorderRadius.circular(40)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                        child: Text(
+                          'Most Affected: Deaths',
+                          style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      countryDeathData == null
+                          ? Container()
+                          : MostAffectedPanel(
+                        countryData: countryDeathData,
+                      ),
+                    ],
+                  ),
+                ),
+
+                Container(
+                  margin: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(30),
+                  decoration: BoxDecoration(
+                      color: Colors.orange,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black38, offset: Offset(0, 0), blurRadius: 10)
+                      ],
+                      borderRadius: BorderRadius.circular(40)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                        child: Text(
+                          'Most Affected: Active Cases',
+                          style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      countryActiveData == null
+                          ? Container()
+                          : MostActivePanel(
+                        countryData: countryActiveData,
+                      ),
+                    ],
+                  ),
+                ),
+
+                Container(
+                  margin: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(30),
+                  decoration: BoxDecoration(
+                      color: Colors.red,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black38, offset: Offset(0, 0), blurRadius: 10)
+                      ],
+                      borderRadius: BorderRadius.circular(40)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                        child: Text(
+                          'Most Affected: Cases',
+                          style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      countryCaseData == null
+                          ? Container()
+                          : MostCasesPanel(
+                        countryData: countryCaseData,
+                      ),
+                    ],
+                  ),
+                ),
+
+                Container(
+                  margin: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(30),
+                  decoration: BoxDecoration(
+                      color: Colors.green,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black38, offset: Offset(0, 0), blurRadius: 10)
+                      ],
+                      borderRadius: BorderRadius.circular(40)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                        child: Text(
+                          'Most Affected: Recovered',
+                          style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      countryRecoveredData == null
+                          ? Container()
+                          : MostRecoveredPanel(
+                        countryData: countryRecoveredData,
+                      ),
+                    ],
+                  ),
+                ),
+
               ],
-
-            )
+            ),
           ],
         ),
       ),
