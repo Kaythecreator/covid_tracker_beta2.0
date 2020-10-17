@@ -1,11 +1,11 @@
 import 'package:covid_tracker_beta/datasource.dart';
 import 'package:flutter/material.dart';
 
-class MostDailyRecoveredPanel extends StatelessWidget {
+class MostDailyDeathsPanel extends StatelessWidget {
 
   final List countryData;
 
-  const MostDailyRecoveredPanel({Key key, this.countryData}) : super(key: key);
+  const MostDailyDeathsPanel({Key key, this.countryData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class MostDailyRecoveredPanel extends StatelessWidget {
                   SizedBox(width: 10,),
                   Text(countryData[index]['country'], style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
                   SizedBox(width: 10,),
-                  Text('Recovered:' + '   ' + countryData[index]['todayRecovered'].toString(), style: TextStyle(color: primaryBlack, fontWeight: FontWeight.w900),),
+                  Text('Deaths:' + '   ' + countryData[index]['todayDeaths'].toString(), style: TextStyle(color: primaryBlack, fontWeight: FontWeight.w900),),
 
                 ]
             ),
